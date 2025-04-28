@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Random Meal Generator</title>
+    <style>
+        body {
+            background: url('Images/Bgimage.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+        .container {
+            margin: 50px auto;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .input-container input {
+            flex-grow: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-size: 18px;
+        }
+        .generate-btn {
+    background: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 20px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+    transition: 0.3s ease-in-out;
+    font-weight: bold;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.generate-btn:hover {
+    background: #218838;
+    transform: scale(1.1);
+}
+
+        .generate-btn:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+        .meal-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: #000;
+            font-weight: bold;
+            text-align: center;
+        }
+        .meal-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .meal-description {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Meal Generator</h2>
+        <div class="input-container">
+            <input type="text" id="ingredients" placeholder="Enter ingredients (comma-separated)">
+        </div>
+        <button class="generate-btn" onclick="generateMeal()">Generate Meal</button>
+        <div class="recent-meals">
+            <h3>Suggested Meals</h3>
+            <div id="meal-list"></div>
+        </div>
+        <button class="generate-btn" style="background:#007bff;margin-top:10px;" onclick="viewHistory()">View Meal History</button>
+
+    </div>
+    
+    
+    <script>
+        const mealDatabase = [
+            { name: "Margherita Pizza", ingredients: ["flour", "cheese", "tomato"], nutrition: "Calories: 250, Protein: 12g", description: "Mix flour and water to form dough, roll it out, spread tomato sauce, add cheese, and bake at 200°C for 15 minutes.", image: "Images/pizza.jpg" },
+            { name: "Beef Stroganoff", ingredients: ["beef", "onion", "mushroom"], nutrition: "Calories: 320, Protein: 18g", description: "Sauté onions and mushrooms, add beef strips, cook until brown, then stir in cream and serve over rice or noodles.", image: "Images/beef.jpg" },
+            { name: "Thai Green Curry", ingredients: ["chicken", "coconut milk", "green curry paste"], nutrition: "Calories: 290, Protein: 20g", description: "Fry curry paste, add chicken and stir-fry, pour in coconut milk, simmer, and serve with rice.", image: "Images/curry.jpeg" },
+            { name: "Sushi Platter", ingredients: ["rice", "fish", "seaweed"], nutrition: "Calories: 200, Protein: 15g", description: "Cook sushi rice, spread on seaweed, add fresh fish slices, roll tightly, and slice into pieces.", image: "Images/sushi.jpeg" },
+        ];
+        
+        function generateMeal() {
+    const input = document.getElementById("ingredients").value.trim();
+    const mealList = document.getElementById("meal-list");
+    mealList.innerHTML = "";
+
+    if (!input) {
+        let randomMeal = mealDatabase[Math.floor(Math.random() * mealDatabase.length)];
+        mealList.innerHTML = `<p>Try this delicious meal:</p>
+                             <div class="meal-card">
+                                <img src="${randomMeal.image}" alt="${randomMeal.name}">
+                                <strong>${randomMeal.name}</strong><br>
+                                <small>Ingredients: ${randomMeal.ingredients.join(", ")}</small><br>
+                                <small>${randomMeal.nutrition}</small>
+                                <p class='meal-description'>${randomMeal.description}</p>
+                             </div>`;
+
+                             // Save the meal into local storage history
+let mealHistory = JSON.parse(localStorage.getItem('mealHistory')) || [];
+mealHistory.push(randomMeal.name);
+localStorage.setItem('mealHistory', JSON.stringify(mealHistory));
+
+        scrollToMeals();
+        return;
+    }
+
+    const inputIngredients = input.toLowerCase().split(",").map(ing => ing.trim());
+    let matchingMeals = mealDatabase.filter(meal => 
+        meal.ingredients.some(ingredient => inputIngredients.includes(ingredient))
+    );
+
+    if (matchingMeals.length > 0) {
+        matchingMeals.forEach(meal => {
+            const mealCard = document.createElement("div");
+            mealCard.className = "meal-card";
+            mealCard.innerHTML = `<img src="${meal.image}" alt="${meal.name}">
+                                 <strong>${meal.name}</strong><br>
+                                 <small>Ingredients: ${meal.ingredients.join(", ")}</small><br>
+                                 <small>${meal.nutrition}</small>
+                                 <p class='meal-description'>${meal.description}</p>`;
+            mealList.appendChild(mealCard);
+
+            let mealHistory = JSON.parse(localStorage.getItem('mealHistory')) || [];
+        mealHistory.push(meal.name);
+        localStorage.setItem('mealHistory', JSON.stringify(mealHistory));
+            
+        });
+
+        scrollToMeals();
+    }
+}
+
+function scrollToMeals() {
+    setTimeout(() => {
+        document.getElementById("meal-list").scrollIntoView({ behavior: "smooth" });
+    }, 200);
+}
+function viewHistory() {
+        const mealList = document.getElementById("meal-list");
+        mealList.innerHTML = "<h3>Previous Meals:</h3>";
+
+        let mealHistory = JSON.parse(localStorage.getItem('mealHistory')) || [];
+        if (mealHistory.length === 0) {
+            mealList.innerHTML += "<p>No meals generated yet!</p>";
+            return;
+        }
+        mealList.innerHTML += "<ul>" + mealHistory.map(meal => `<li>${meal}</li>`).join('') + "</ul>";
+
+        scrollToMeals();
+    }
+
+    </script>
+</body>
+</html>

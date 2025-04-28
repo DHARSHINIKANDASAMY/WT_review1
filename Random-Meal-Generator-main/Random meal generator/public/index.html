@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Meal Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="Images\logo.jpeg" alt="Home Logo">
+            <span>Random Meal Generator</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="pantry.html">Features</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <a href="signup.html"><button class="signup">Sign Up</button></a>
+            <a href="login.html"><button class="login">Log in</button></a>
+          </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Discover New Meals Instantly!</h1>
+        <p>Click the button below to generate a random meal suggestion.</p>
+        <a href="meal-gen.html" class="meal-btn">Generate Meal</a>
+    </header>
+
+    <div class="carousel">
+        <div><img src="Images\meal1.jpg" alt="Meal 1"></div>
+        <div><img src="Images\OIP.jpeg" alt="Meal 2"></div>
+        <div><img src="Images\OIP (1).jpeg" alt="Meal 3"></div>
+        <div><img src="Images\meal4.jpg" alt="Meal 4"></div>
+    </div>
+
+    <section class="featured-meals">
+        <h2>Featured Meals</h2>
+        <div class="meal-cards">
+            <div class="meal-card">
+                <img src="Images\featured1.jpg" alt="Meal">
+                <h3>Spaghetti Bolognese</h3>
+            </div>
+            <div class="meal-card">
+                <img src="Images\featured2.jpg" alt="Meal">
+                <h3>Grilled Chicken Salad</h3>
+            </div>
+            <div class="meal-card">
+                <img src="Images\featured3.jpeg" alt="Meal">
+                <h3>Sushi Platter</h3>
+            </div>
+        </div>
+    </section>
+
+<section class="testimonials">
+    <h2>What Our Users Say</h2>
+    <div class="testimonial-slider">
+        <div class="testimonial">
+            <p>"This website helped me find amazing meal ideas every day!"</p>
+            <span>- Alex</span>
+        </div>
+        <div class="testimonial">
+            <p>"I love how easy it is to discover new dishes!"</p>
+            <span>- Sarah</span>
+        </div>
+    </div>
+</section>
+
+
+    <div class="footer">
+        <div class="scrolling-text">&bull; About Us &bull; Contact Info &bull; Discover More Meals &bull; Enjoy Delicious Dishes &bull;</div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('.carousel').slick({
+                autoplay: true,
+                autoplaySpeed: 3000,
+                dots: true,
+                arrows: false,
+            });
+
+            $('.testimonial-slider').slick({
+                autoplay: true,
+                autoplaySpeed: 4000,
+                dots: false,
+                arrows: false,
+                fade: true,
+            });
+        });
+    </script>
+
+</body>
+</html>
